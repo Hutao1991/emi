@@ -32,7 +32,7 @@ public class RegexTagQuery extends Query {
                             EmiTagKey.fromRegistry(EmiPort.getItemRegistry()),
                             EmiTagKey.fromRegistry(EmiPort.getBlockRegistry())
                     ),
-                    EmiTagKey.fromRegistry(EmiPort.getFluidRegistry())
+                    EmiTagKey.fromRegistry(EmiPort.getFluidRegistry())// Add fluid registry
             ).filter(t -> {
                 if (t.hasTranslation()) {
                     if (pat.matcher(t.getTagName().getString().toLowerCase()).find()) {
@@ -48,13 +48,13 @@ public class RegexTagQuery extends Query {
                     .flatMap(entry -> {
                         Stream<Object> result = Stream.empty();
                         if (entry instanceof Block block) {
-                        // 搜索方块标签对应方块
+                            // Map block tag entries to their corresponding items
                             result = Stream.concat(result, Stream.of(block.asItem()));
                         } else if (entry instanceof Item item) {
-                        // 搜索物品标签对应物品
+                            // Keep item tag entries as is
                             result = Stream.concat(result, Stream.of(item));
                         } else if (entry instanceof Fluid fluid) {
-                        // 搜索流体标签对应流体
+                            // Keep fluid tag entries as is
                             result = Stream.concat(result, Stream.of(fluid));
                         }
                         return result;
